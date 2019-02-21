@@ -173,6 +173,9 @@ public class ResponseModel<M> implements Serializable {
     public static <M> ResponseModel<M> buildCreateError(int type) {
         return new ResponseModel<M>(type, "Create failed.");
     }
+    public static <M> ResponseModel<M> buildQueryError() {
+        return new ResponseModel<M>(DATA_EMPTY, "查询失败");
+    }
     public static <M> ResponseModel<M> buildMessage(int type,String msg) {
         return new ResponseModel<M>(type, msg);
     }

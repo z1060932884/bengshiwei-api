@@ -45,7 +45,7 @@ public class SinaYuLeNewsReptile implements PageProcessor {
             public void run() {
                 Spider.create(new SinaYuLeNewsReptile())
                         .addUrl("http://ent.sina.com.cn/")
-                        .setDownloader(new SeleniumDownloader("C:\\Users\\JamesZhang\\Desktop\\reptile\\chromedriver.exe")).thread(5).run();
+                        .setDownloader(new SeleniumDownloader("C:\\Users\\JamesZhang\\Desktop\\chromedriver\\chromedriver.exe")).thread(5).run();
             }
         }, 1000);
 // 第一步： 设置chromedriver地址。一定要指定驱动的位置。

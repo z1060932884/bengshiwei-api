@@ -2,6 +2,9 @@ package com.bengshiwei.zzj.app.utils;
 
 
 import com.bengshiwei.zzj.app.bean.api.NewsReptileModel;
+import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
+import com.bengshiwei.zzj.app.bean.db.MovieReptileModel;
+import com.bengshiwei.zzj.app.bean.db.NewsBrowse;
 import com.bengshiwei.zzj.app.bean.db.NewsReptile;
 import org.hibernate.Session;
 
@@ -23,7 +26,41 @@ public class ReptileUtils {
                     .list();
         });
     }
+    /**
+     * 通过url查找当前是否已经存储数据库
+     *
+     * @param url
+     * @return
+     */
+    public static List<MovieDetailsModel> getMovieUrl(String url) {
+        return Hib.query(session -> {
+            return (List<MovieDetailsModel>) session
+                    .createQuery("from MovieDetailsModel where url=:url")
+                    .setParameter("url", url)
+                    .list();
+        });
+    }
 
+    /**
+     *查询影视列表
+     * @return
+     */
+    public static List<MovieReptileModel> getMovieList(String type){
+        //根据时间排序查询
+        return Hib.query(session -> session.createQuery("from MovieReptileModel where type=:userid order by updateAt desc")
+                .setParameter("userid",type)
+                .list());
+    }
+    /**
+     *查询影视列表
+     * @return
+     */
+    public static List<MovieDetailsModel> getMovieDetailsList(String type){
+        //根据时间排序查询
+        return Hib.query(session -> session.createQuery("from MovieDetailsModel where type=:userid order by updateAt desc")
+                .setParameter("userid",type)
+                .list());
+    }
     /**
      * 保存爬取的新闻
      * @param titles
