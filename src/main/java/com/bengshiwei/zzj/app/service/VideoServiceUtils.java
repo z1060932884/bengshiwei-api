@@ -5,7 +5,9 @@ import com.bengshiwei.zzj.app.bean.api.video.VideoListModel;
 import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
 import com.bengshiwei.zzj.app.bean.db.NewsBrowse;
 import com.bengshiwei.zzj.app.bean.db.NewsReptile;
+import com.bengshiwei.zzj.app.bean.db.User;
 import com.bengshiwei.zzj.app.utils.Hib;
+import com.google.common.base.Strings;
 
 import java.util.List;
 import java.util.function.Function;
@@ -23,7 +25,7 @@ public class VideoServiceUtils {
 
         int beginPage =  page*limit;
 
-        List<MovieDetailsModel> movieDetailsModels =Hib.query(session -> {
+        List<MovieDetailsModel> movieDetailsModels = Hib.query(session -> {
             // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
             // 头像和描述必须完善才能查询到
             return  session.createQuery("from MovieDetailsModel where type=:mType  order by updateTime desc")
@@ -37,14 +39,8 @@ public class VideoServiceUtils {
         return  movieDetailsModels.stream().map(new Function<MovieDetailsModel, VideoListModel>() {
             @Override
             public VideoListModel apply(MovieDetailsModel movieDetailsModel) {
-                VideoListModel videoListModel = new VideoListModel();
-                videoListModel.setId(movieDetailsModel.getId());
-                videoListModel.setImg(movieDetailsModel.getImg());
-                videoListModel.setTitle(movieDetailsModel.getTitle());
-                videoListModel.setMovieType(movieDetailsModel.getMovieType());
-                videoListModel.setType(movieDetailsModel.getType());
-                videoListModel.setUpdateTime(movieDetailsModel.getUpdateTime());
-                return videoListModel;
+
+                return new VideoListModel(movieDetailsModel);
             }
         }).collect(Collectors.toList());
     }
@@ -62,27 +58,26 @@ public class VideoServiceUtils {
     }
 
     /**
-     * 查询当前新闻是否保存过
-     * @param newsId
-     * @return
+     * 搜索视频的实现
+     *
+     * @param name 查询的name，允许为空
+     * @return 查询到的用户集合，如果name为空，则返回最近的用户
      */
-    public static NewsBrowse findNewsBrowserById(String userId, String newsId){
-        return Hib.query(session -> {
-            return (NewsBrowse) session.createQuery("from NewsBrowse where userId=:userid and newsId=:newsid")
-                    .setParameter("userid",userId)
-                    .setParameter("newsid",newsId)
-                    .uniqueResult();
-        });
-    }
+    @SuppressWarnings("unchecked")
+    public static List<VideoListModel> search(String name) {
+        if (Strings.isNullOrEmpty(name))
+            name = ""; // 保证不能为null的情况，减少后面的一下判断和额外的错误
+        final String searchName = "%" + name + "%"; // 模糊匹配
 
-    /**
-     *查询当前用户的浏览记录
-     * @return
-     */
-    public static List<NewsBrowse> getNewsBrowseList(String userid){
-        //根据时间排序查询
-        return Hib.query(session -> session.createQuery("from NewsBrowse where userId=:userid order by updateAt desc")
-                .setParameter("userid",userid)
-                .list());
+        List<MovieDetailsModel> movieDetailsModels = Hib.query(session -> {
+            // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
+            // 头像和描述必须完善才能查询到
+            return session.createQuery("from MovieDetailsModel where lower(title) like :name ")
+                    .setParameter("name", searchName)
+                    .setMaxResults(20) // 至多20条
+                    .list();
+        });
+        return movieDetailsModels.stream().map(movieDetailsModel -> new VideoListModel(movieDetailsModel)).collect(Collectors.toList());
+
     }
 }

@@ -1,5 +1,6 @@
 package com.bengshiwei.zzj.app.bean.api.video;
 
+import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
 import com.bengshiwei.zzj.app.bean.db.TelePlayUrl;
 import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.*;
@@ -17,6 +18,8 @@ import java.util.Set;
  */
 
 public class VideoListModel {
+
+
 
 
     @Expose
@@ -40,6 +43,19 @@ public class VideoListModel {
 
     @Expose
     private String movieType;//电影的类型0是最新，1是国产，2美剧3英剧4韩剧5日剧
+
+
+    public VideoListModel() {
+    }
+
+    public VideoListModel(MovieDetailsModel movieDetailsModel) {
+        this.id = movieDetailsModel.getId();
+        this.title = movieDetailsModel.getTitle();
+        this.img = movieDetailsModel.getImg();
+        this.type = movieDetailsModel.getType();
+        this.updateTime = movieDetailsModel.getUpdateTime();
+        this.movieType = movieDetailsModel.getMovieType();
+    }
 
     public String getId() {
         return id;

@@ -33,6 +33,31 @@ public class VideoService {
         return "you get the login";
     }
 
+
+    /**
+     * 查询电影
+     * @param content
+     * @return
+     */
+    @GET
+    @Path("/search")
+    //指定请求与返回的相应体为Json
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseModel<List<VideoListModel>> search(@QueryParam("content") String content){
+
+        if(content.isEmpty()){
+            return ResponseModel.buildMessage(ResponseModel.FAILS,"搜索内容不能为空");
+        }
+
+       List<VideoListModel> videoListModels =  VideoServiceUtils.search(content);
+       if(videoListModels!=null&&videoListModels.size()>0){
+           return ResponseModel.buildOk(videoListModels);
+       }else {
+           return ResponseModel.buildQueryError();
+       }
+    }
+
     @POST
     @Path("/videoList")
     //指定请求与返回的相应体为Json
