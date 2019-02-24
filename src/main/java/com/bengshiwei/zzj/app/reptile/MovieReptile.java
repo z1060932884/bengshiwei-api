@@ -109,7 +109,10 @@ public class MovieReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3-pg-2.html").thread(5).run();
+                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-16.html").thread(5).run();
+//               for(int i =2;i<6;i++){
+//                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4-pg-"+i+".html").thread(5).run();
+//               }
             }
         }, 1000);
     }

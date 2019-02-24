@@ -9,7 +9,7 @@
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!--链接地址用户名密码 -->
         <property name="connection.url">jdbc:mysql://47.75.50.156:3306/bengshiwei?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
-        <!--<property name="connection.url">jdbc:mysql://127.0.0.127:3305/bengshiwei?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>-->
+        <!--<property name="connection.url">jdbc:mysql://127.0.0.127:3306/bengshiwei?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>-->
         <property name="connection.username">root</property>
         <property name="connection.password">z123456</property>
 
@@ -80,5 +80,7 @@
                  class="com.bengshiwei.zzj.app.bean.db.MovieDetailsModel"/>
         <mapping package="com.bengshiwei.zzj.app.bean.db"
                  class="com.bengshiwei.zzj.app.bean.db.TelePlayUrl"/>
+        <mapping package="com.bengshiwei.zzj.app.bean.db"
+                 class="com.bengshiwei.zzj.app.bean.db.TelePlayUrl2"/>
     </session-factory>
 </hibernate-configuration>

@@ -46,6 +46,9 @@ public class MovieDetailsModel {
     @Column(columnDefinition = "TEXT")
     @Expose()
     private String playUrl;
+    @Column(columnDefinition = "TEXT")
+    @Expose()
+    private String playUrl2;
 
     // 我关注的人的列表方法
     // 对应的数据库表字段为Teleplayurl movieId
@@ -56,6 +59,15 @@ public class MovieDetailsModel {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Expose
     private Set<TelePlayUrl> playUrls = new HashSet<>();
+    // 我关注的人的列表方法
+    // 对应的数据库表字段为Teleplayurl movieId
+    @JoinColumn(name = "movieId")
+    // 定义为懒加载，默认加载User信息的时候，并不查询这个集合
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    // 1对多，一个用户可以有很多关注人，每一次关注都是一个记录
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Expose
+    private Set<TelePlayUrl2> playUrls2 = new HashSet<>();
 
     @Column()
     @Expose
@@ -233,4 +245,21 @@ public class MovieDetailsModel {
     public void setTelePlayUrls(Set<TelePlayUrl> telePlayUrls) {
         this.playUrls = telePlayUrls;
     }
+
+    public String getPlayUrl2() {
+        return playUrl2;
+    }
+
+    public void setPlayUrl2(String playUrl2) {
+        this.playUrl2 = playUrl2;
+    }
+
+    public Set<TelePlayUrl2> getPlayUrls2() {
+        return playUrls2;
+    }
+
+    public void setPlayUrls2(Set<TelePlayUrl2> playUrls2) {
+        this.playUrls2 = playUrls2;
+    }
+
 }
