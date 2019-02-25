@@ -2,10 +2,7 @@ package com.bengshiwei.zzj.app.utils;
 
 
 import com.bengshiwei.zzj.app.bean.api.NewsReptileModel;
-import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
-import com.bengshiwei.zzj.app.bean.db.MovieReptileModel;
-import com.bengshiwei.zzj.app.bean.db.NewsBrowse;
-import com.bengshiwei.zzj.app.bean.db.NewsReptile;
+import com.bengshiwei.zzj.app.bean.db.*;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -62,6 +59,30 @@ public class ReptileUtils {
                 .list());
     }
     /**
+     *查询影视url
+     * @return
+     */
+    public static List<TelePlayUrl> geTeleplayUrl(String movieId){
+        //根据时间排序查询
+        return Hib.query(session ->{
+            return (List<TelePlayUrl>)session.createQuery("from TelePlayUrl where movieId=:movieId")
+                .setParameter("movieId",movieId)
+                .list();
+            });
+    }
+    /**
+     *查询影视url
+     * @return
+     */
+    public static List<TelePlayUrl2> geTeleplayUrl2(String movieId){
+        //根据时间排序查询
+        return Hib.query(session ->{
+            return (List<TelePlayUrl2>) session.createQuery("from TelePlayUrl2 where movieId=:movieId")
+                .setParameter("movieId",movieId)
+                .list();
+            });
+    }
+    /**
      * 保存爬取的新闻
      * @param titles
      * @param imgs
@@ -94,5 +115,11 @@ public class ReptileUtils {
                 }
             }
         }
+
+    }
+
+    public static void main(String[] args){
+
+       System.out.println("----->"+ geTeleplayUrl("1d55d7d1-3395-4a45-ad25-8fdbf744f2d1").size());
     }
 }

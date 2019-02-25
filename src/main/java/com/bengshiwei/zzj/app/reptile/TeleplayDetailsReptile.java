@@ -19,7 +19,7 @@ public class TeleplayDetailsReptile implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
-    static List<MovieDetailsModel> movieDetailsModels = ReptileUtils.getMovieDetailsList("福利片");
+    static List<MovieDetailsModel> movieDetailsModels = ReptileUtils.getMovieDetailsList("动漫片");
 
     @Override
     public void process(Page page) {
@@ -56,28 +56,37 @@ public class TeleplayDetailsReptile implements PageProcessor {
             movieDetailsModel.setImg(image);
             movieDetailsModel.setPlayUrl("1");
             movieDetailsModel.setPlayUrl2("1");
-            Set<TelePlayUrl> telePlayUrls = new HashSet<>();
-            Set<TelePlayUrl2> telePlayUrls2 = new HashSet<>();
+//            Set<TelePlayUrl> telePlayUrls = new HashSet<>();
+//            Set<TelePlayUrl2> telePlayUrls2 = new HashSet<>();
             try {
                 Session session = Hib.session();
                 session.beginTransaction();
+                List<TelePlayUrl> telePlayUrls1 = ReptileUtils.geTeleplayUrl(movieDetailsModel.getId());
+                List<TelePlayUrl2> telePlayUrls2 = ReptileUtils.geTeleplayUrl2(movieDetailsModel.getId());
 //            //保存电视剧的集数1
-                for (String url : playUrl) {
-                    TelePlayUrl telePlayUrl = new TelePlayUrl();
-                    telePlayUrl.setMovieDetailsModel(movieDetailsModel);
-                    telePlayUrl.setPlayUrl(url);
-                    telePlayUrls.add(telePlayUrl);
-                    session.save(telePlayUrl);
+                for (int i = 0;i<playUrl.size();i++) {
+
+                    String url = playUrl.get(i);
+                    if(i>telePlayUrls1.size()-1){
+                        TelePlayUrl telePlayUrl = new TelePlayUrl();
+                        telePlayUrl.setMovieDetailsModel(movieDetailsModel);
+                        telePlayUrl.setPlayUrl(url);
+//                        telePlayUrls.add(telePlayUrl);
+                        session.save(telePlayUrl);
+                    }
                 }
 //            //保存电视剧的集数2
-                for (String url : playUrl2) {
-                    TelePlayUrl2 telePlayUrl2 = new TelePlayUrl2();
-                    telePlayUrl2.setMovieDetailsModel(movieDetailsModel);
-                    telePlayUrl2.setPlayUrl(url);
-                    telePlayUrls2.add(telePlayUrl2);
-                    session.save(telePlayUrl2);
-                }
+                for (int i = 0;i<playUrl2.size();i++) {
 
+                    String url = playUrl2.get(i);
+                    if(i>telePlayUrls2.size()-1){
+                        TelePlayUrl2 telePlayUrl2 = new TelePlayUrl2();
+                        telePlayUrl2.setMovieDetailsModel(movieDetailsModel);
+                        telePlayUrl2.setPlayUrl(url);
+//                    telePlayUrls2.add(telePlayUrl2);
+                        session.save(telePlayUrl2);
+                    }
+                }
 
                 session.saveOrUpdate(movieDetailsModel);
                 session.getTransaction().commit();
@@ -110,15 +119,15 @@ public class TeleplayDetailsReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                Spider.create(new TeleplayDetailsReptile()).addUrl("http://www.zuidazyw.com/?m=vod-detail-id-56738.html").thread(5).run();
+                Spider.create(new TeleplayDetailsReptile()).addUrl("http://www.zuidazyw.com/?m=vod-detail-id-54783.html").thread(5).run();
 //
-                for(MovieDetailsModel movieReptileModel : movieDetailsModels){
-//                    System.out.println("url____------>"+movieReptileModel.getUrl());
-                    if(movieReptileModel.getPlayUrl()==null){
-                        Spider.create(new TeleplayDetailsReptile()).addUrl(movieReptileModel.getUrl()).thread(5).run();
-                    }
-
-                }
+//                for(MovieDetailsModel movieReptileModel : movieDetailsModels){
+////                    System.out.println("url____------>"+movieReptileModel.getUrl());
+//                    if(movieReptileModel.getPlayUrl()==null){
+//                        Spider.create(new TeleplayDetailsReptile()).addUrl(movieReptileModel.getUrl()).thread(5).run();
+//                    }
+//
+//                }
 
             }
         }, 1000);
