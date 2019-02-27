@@ -2,10 +2,7 @@ package com.bengshiwei.zzj.app.service;
 
 import com.bengshiwei.zzj.app.bean.api.NewsReptileModel;
 import com.bengshiwei.zzj.app.bean.api.video.VideoListModel;
-import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
-import com.bengshiwei.zzj.app.bean.db.NewsBrowse;
-import com.bengshiwei.zzj.app.bean.db.NewsReptile;
-import com.bengshiwei.zzj.app.bean.db.User;
+import com.bengshiwei.zzj.app.bean.db.*;
 import com.bengshiwei.zzj.app.utils.Hib;
 import com.google.common.base.Strings;
 
@@ -46,6 +43,23 @@ public class VideoServiceUtils {
     }
 
 
+    public static List<TelePlayUrl> getPlayUrlList(String movieId, int page, int limit){
+
+        int beginPage =  page*limit;
+
+        List<TelePlayUrl> telePlayUrls = Hib.query(session -> {
+            // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
+            // 头像和描述必须完善才能查询到
+            return  session.createQuery("from TelePlayUrl where movieId=:movieId")
+                    .setParameter("movieId",movieId)
+                    .list();
+
+        });
+
+        return  telePlayUrls;
+    }
+
+
 
     /**
      * 根据id查询电影数据
@@ -78,6 +92,23 @@ public class VideoServiceUtils {
                     .list();
         });
         return movieDetailsModels.stream().map(movieDetailsModel -> new VideoListModel(movieDetailsModel)).collect(Collectors.toList());
+
+    }
+
+    public static void main(String[] args){
+
+//        System.out.println(search("海贼王").get(0).getId());
+        System.out.println(VideoServiceUtils.getPlayUrlList("0703d45b-e79e-46d5-aa92-133ad6456b75",0,0).size());
+
+//       MovieDetailsModel movieDetailsModel =  VideoServiceUtils.findVideoById("0703d45b-e79e-46d5-aa92-133ad6456b75");
+//
+//
+//       if(movieDetailsModel!=null){
+//           System.out.println( "-------"+movieDetailsModel.getTelePlayUrls().size());
+//
+//       }else {
+//           System.out.println( "-------null");
+//       }
 
     }
 }

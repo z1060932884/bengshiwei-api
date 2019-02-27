@@ -75,18 +75,18 @@ public class TeleplayDetailsReptile implements PageProcessor {
                         session.save(telePlayUrl);
                     }
                 }
-//            //保存电视剧的集数2
-                for (int i = 0;i<playUrl2.size();i++) {
-
-                    String url = playUrl2.get(i);
-                    if(i>telePlayUrls2.size()-1){
-                        TelePlayUrl2 telePlayUrl2 = new TelePlayUrl2();
-                        telePlayUrl2.setMovieDetailsModel(movieDetailsModel);
-                        telePlayUrl2.setPlayUrl(url);
-//                    telePlayUrls2.add(telePlayUrl2);
-                        session.save(telePlayUrl2);
-                    }
-                }
+////            //保存电视剧的集数2
+//                for (int i = 0;i<playUrl2.size();i++) {
+//
+//                    String url = playUrl2.get(i);
+//                    if(i>telePlayUrls2.size()-1){
+//                        TelePlayUrl2 telePlayUrl2 = new TelePlayUrl2();
+//                        telePlayUrl2.setMovieDetailsModel(movieDetailsModel);
+//                        telePlayUrl2.setPlayUrl(url);
+////                    telePlayUrls2.add(telePlayUrl2);
+//                        session.save(telePlayUrl2);
+//                    }
+//                }
 
                 session.saveOrUpdate(movieDetailsModel);
                 session.getTransaction().commit();

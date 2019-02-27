@@ -55,43 +55,43 @@ public class MovieReptile implements PageProcessor {
 //        titles.addAll(page.getHtml().xpath("//div[@class='news-img']//a/img/@alt").all());
 //        urls .addAll(page.getHtml().xpath("//div[@class='news-img']//a/@href").all());
 //        imgs.addAll(page.getHtml().xpath("//div[@class='news-img']//a/img/@src").all());
-
+        MovieDetailsModel movieDetailsModel = null;
         for (int i = 0; i < titles.size(); i++) {
             List<MovieDetailsModel> movieDetailsModels = ReptileUtils.getMovieUrl(urls.get(i));
             if (movieDetailsModels != null && movieDetailsModels.size() > 0) {
-
-                System.out.println("写入失败,数据库已存储");
+                movieDetailsModel =  movieDetailsModels.get(0);
+                System.out.println("更新数据");
             } else {
                 if(titles.get(i)!=null&&!titles.get(i).equals("")){
-                    MovieDetailsModel testReptile = new MovieDetailsModel();
+                    movieDetailsModel = new MovieDetailsModel();
 //                    testReptile.setImg(imgs.get(i));
-                    testReptile.setTitle(titles.get(i));
-                    testReptile.setUrl(urls.get(i));
-                    testReptile.setType(type);
-                    testReptile.setMovieType(movieType.get(i));
-//                    testReptile.setDefinition(definitions.get(i));
-                    testReptile.setUpdateTime(times.get(i));
-                    Session session = Hib.session();
-                    session.beginTransaction();
-                    try {
-                        session.save(testReptile);
-                        System.out.println("写入成功");
-                    } catch (Exception e) {
-                        System.out.println("写入失败" + e.getMessage());
-                    }
-                    session.getTransaction().commit();
+                    movieDetailsModel.setUrl(urls.get(i));
+                    movieDetailsModel.setType(type);
+                    movieDetailsModel.setMovieType(movieType.get(i));
+
                 }else {
                     System.out.println("标题为空");
                 }
             }
+            movieDetailsModel.setTitle(titles.get(i));
+            movieDetailsModel.setUpdateTime(times.get(i));
+            Session session = Hib.session();
+            session.beginTransaction();
+            try {
+                session.saveOrUpdate(movieDetailsModel);
+                System.out.println("写入成功");
+            } catch (Exception e) {
+                System.out.println("写入失败" + e.getMessage());
+            }
+            session.getTransaction().commit();
             Spider.create(new TeleplayDetailsReptile()).addUrl(urls.get(i)).thread(5).run();
         }
-        System.out.println("type_____------->"+type);
-        System.out.println("titles--->"+titles+"抓取数量----》"+titles.size());
-        System.out.println("urls----->"+urls+"抓取数量----》"+urls.size());
-//        System.out.println("imgs----->"+imgs+"抓取数量----》"+imgs.size());
-        System.out.println("movieType----->"+movieType+"抓取数量----》"+movieType.size());
-        System.out.println("times----->"+times+"抓取数量----》"+times.size());
+//        System.out.println("type_____------->"+type);
+//        System.out.println("titles--->"+titles+"抓取数量----》"+titles.size());
+//        System.out.println("urls----->"+urls+"抓取数量----》"+urls.size());
+////        System.out.println("imgs----->"+imgs+"抓取数量----》"+imgs.size());
+//        System.out.println("movieType----->"+movieType+"抓取数量----》"+movieType.size());
+//        System.out.println("times----->"+times+"抓取数量----》"+times.size());
 //        System.out.println("definitions----->"+definitions+"抓取数量----》"+definitions.size());
 
 
@@ -111,7 +111,7 @@ public class MovieReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2.html").thread(5).run();
+                Spider.create(new MovieReptile()).addUrl("http://zuidazy.net/?m=vod-type-id-4.html").thread(5).run();
 //               for(int i =2;i<6;i++){
 //                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4-pg-"+i+".html").thread(5).run();
 //               }
