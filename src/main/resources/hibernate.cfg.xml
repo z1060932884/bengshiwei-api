@@ -33,7 +33,7 @@
         <property name="c3p0.max_size">50</property>
         <!--设定数据库连接的超时时间-->
         <!--<property name="c3p0.time_out">1800</property>-->
-        <property name="c3p0.timeout">100</property>
+        <property name="c3p0.timeout">1800</property>
         <!--可以被缓存的PreparedStatement的最大数目-->
         <property name="c3p0.max_statement">50</property>
         <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->

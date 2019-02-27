@@ -65,7 +65,7 @@ public class MovieDetailsModel {
     // 定义为懒加载，默认加载User信息的时候，并不查询这个集合
     @LazyCollection(LazyCollectionOption.EXTRA)
     // 1对多，一个用户可以有很多关注人，每一次关注都是一个记录
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Expose
     private Set<TelePlayUrl2> playUrls2 = new HashSet<>();
 

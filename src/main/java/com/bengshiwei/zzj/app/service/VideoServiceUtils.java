@@ -97,18 +97,19 @@ public class VideoServiceUtils {
 
     public static void main(String[] args){
 
-//        System.out.println(search("海贼王").get(0).getId());
-        System.out.println(VideoServiceUtils.getPlayUrlList("0703d45b-e79e-46d5-aa92-133ad6456b75",0,0).size());
+        System.out.println(System.currentTimeMillis());
+//        System.out.println(VideoServiceUtils.getPlayUrlList(search("我的亲爹和后爸").get(0).getId(),0,0).size());
 
-//       MovieDetailsModel movieDetailsModel =  VideoServiceUtils.findVideoById("0703d45b-e79e-46d5-aa92-133ad6456b75");
-//
-//
-//       if(movieDetailsModel!=null){
-//           System.out.println( "-------"+movieDetailsModel.getTelePlayUrls().size());
-//
-//       }else {
-//           System.out.println( "-------null");
-//       }
+       MovieDetailsModel movieDetailsModel =  VideoServiceUtils.findVideoById(search("我的亲爹和后爸").get(0).getId());
+
+
+       if(movieDetailsModel!=null){
+           System.out.println( "-------"+movieDetailsModel.getTelePlayUrls().size());
+
+       }else {
+           System.out.println( "-------null");
+       }
+        System.out.println(System.currentTimeMillis());
 
     }
 }
