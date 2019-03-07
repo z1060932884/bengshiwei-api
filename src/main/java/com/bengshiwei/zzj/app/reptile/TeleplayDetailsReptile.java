@@ -30,13 +30,13 @@ public class TeleplayDetailsReptile implements PageProcessor {
         List<String> content = page.getHtml().xpath("//div[@class='vodinfobox']//ul//li//span/text()").all();
         List<String> desc = page.getHtml().xpath("//div[@class='ibox playBox']//div[@class='vodplayinfo']/text()").all();
         String image = page.getHtml().xpath("//div[@class='vodImg']//img[@class='lazy']/@src").get();
-        List<String> playUrl = page.getHtml().xpath("//div[@id='play_1']//ul//li/text()").all();
-        List<String> playUrl2 = page.getHtml().xpath("//div[@id='play_2']//ul//li/text()").all();
+        List<String> playUrl = page.getHtml().xpath("//div[@id='play_2']//ul//li/text()").all();
+//        List<String> playUrl2 = page.getHtml().xpath("//div[@id='play_2']//ul//li/text()").all();
 
         System.out.println("导演----->" + content);
         System.out.println("desc----->" + desc);
         System.out.println("url----->" + playUrl);
-        System.out.println("url2----->" + playUrl2);
+//        System.out.println("url2----->" + playUrl2);
         System.out.println("image----->" + image);
 
         List<MovieDetailsModel> movieDetailsModels = ReptileUtils.getMovieUrl(page.getUrl().toString().trim());
