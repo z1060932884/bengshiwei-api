@@ -56,25 +56,28 @@ public class TeleplayDetailsReptile implements PageProcessor {
             movieDetailsModel.setImg(image);
             movieDetailsModel.setPlayUrl("1");
             movieDetailsModel.setPlayUrl2("1");
-//            Set<TelePlayUrl> telePlayUrls = new HashSet<>();
-//            Set<TelePlayUrl2> telePlayUrls2 = new HashSet<>();
-            try {
-                Session session = Hib.session();
-                session.beginTransaction();
-                List<TelePlayUrl> telePlayUrls1 = ReptileUtils.geTeleplayUrl(movieDetailsModel.getId());
-                List<TelePlayUrl2> telePlayUrls2 = ReptileUtils.geTeleplayUrl2(movieDetailsModel.getId());
-//            //保存电视剧的集数1
-                for (int i = 0;i<playUrl.size();i++) {
 
-                    String url = playUrl.get(i);
-                    if(i>telePlayUrls1.size()-1){
-                        TelePlayUrl telePlayUrl = new TelePlayUrl();
-                        telePlayUrl.setMovieDetailsModel(movieDetailsModel);
-                        telePlayUrl.setPlayUrl(url);
+            List<TelePlayUrl> telePlayUrls1 = ReptileUtils.geTeleplayUrl(movieDetailsModel.getId());
+//                List<TelePlayUrl2> telePlayUrls2 = ReptileUtils.geTeleplayUrl2(movieDetailsModel.getId());
+//            //保存电视剧的集数1
+            if (telePlayUrls1.size() != playUrl.size()) {
+                try {
+                    Session session = Hib.session();
+                    session.beginTransaction();
+
+                    for (int i = 0; i < playUrl.size(); i++) {
+
+                        String url = playUrl.get(i);
+                        if (i > telePlayUrls1.size() - 1) {
+                            TelePlayUrl telePlayUrl = new TelePlayUrl();
+                            telePlayUrl.setMovieDetailsModel(movieDetailsModel);
+                            telePlayUrl.setPlayUrl(url);
 //                        telePlayUrls.add(telePlayUrl);
-                        session.save(telePlayUrl);
+                            session.save(telePlayUrl);
+                        }
                     }
-                }
+
+
 ////            //保存电视剧的集数2
 //                for (int i = 0;i<playUrl2.size();i++) {
 //
@@ -88,11 +91,12 @@ public class TeleplayDetailsReptile implements PageProcessor {
 //                    }
 //                }
 
-                session.saveOrUpdate(movieDetailsModel);
-                session.getTransaction().commit();
-                System.out.println("写入成功");
-            } catch (Exception e) {
-                System.out.println("写入失败" + e.getMessage());
+                    session.saveOrUpdate(movieDetailsModel);
+                    session.getTransaction().commit();
+                    System.out.println("写入成功");
+                } catch (Exception e) {
+                    System.out.println("写入失败" + e.getMessage());
+                }
             }
         }
 
@@ -119,7 +123,7 @@ public class TeleplayDetailsReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Spider.create(new TeleplayDetailsReptile()).addUrl("http://www.zuidazyw.com/?m=vod-detail-id-54783.html").thread(5).run();
+                Spider.create(new TeleplayDetailsReptile()).addUrl("http://zuidazy.net/?m=vod-detail-id-53253.html").thread(5).run();
 //
 //                for(MovieDetailsModel movieReptileModel : movieDetailsModels){
 ////                    System.out.println("url____------>"+movieReptileModel.getUrl());

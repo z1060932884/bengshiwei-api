@@ -60,6 +60,9 @@ public class MovieReptile implements PageProcessor {
             List<MovieDetailsModel> movieDetailsModels = ReptileUtils.getMovieUrl(urls.get(i));
             if (movieDetailsModels != null && movieDetailsModels.size() > 0) {
                 movieDetailsModel =  movieDetailsModels.get(0);
+                if(movieDetailsModel.getTitle().equals(titles.get(i))){
+                    continue;
+                }
                 System.out.println("更新数据");
             } else {
                 if(titles.get(i)!=null&&!titles.get(i).equals("")){
@@ -84,7 +87,7 @@ public class MovieReptile implements PageProcessor {
                 System.out.println("写入失败" + e.getMessage());
             }
             session.getTransaction().commit();
-            Spider.create(new TeleplayDetailsReptile()).addUrl(urls.get(i)).thread(5).run();
+            Spider.create(new TeleplayDetailsReptile()).addUrl(urls.get(i)).run();
         }
 //        System.out.println("type_____------->"+type);
 //        System.out.println("titles--->"+titles+"抓取数量----》"+titles.size());
@@ -111,10 +114,16 @@ public class MovieReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2.html").thread(5).run();
-//               for(int i =2;i<6;i++){
+//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-1.html").thread(5).run();
+//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2.html").thread(5).run();
+//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3.html").thread(5).run();
+//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4.html").thread(5).run();
+               for(int i =2;i<10;i++){
+//                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-1-pg-"+i+".html").thread(5).run();
+//                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2-pg-"+i+".html").thread(5).run();
+                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3-pg-"+i+".html").thread(5).run();
 //                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4-pg-"+i+".html").thread(5).run();
-//               }
+               }
             }
         }, 1000);
     }
