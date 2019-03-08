@@ -31,7 +31,7 @@ public class MovieDetailsReptile implements PageProcessor {
         List<String> content = page.getHtml().xpath("//div[@class='vodinfobox']//ul//li//span/text()").all();
         List<String> desc = page.getHtml().xpath("//div[@class='ibox playBox']//div[@class='vodplayinfo']/text()").all();
         String image = page.getHtml().xpath("//div[@class='vodImg']//img[@class='lazy']/@src").get();
-        String playUrl = page.getHtml().xpath("//div[@id='play_1']//ul//li/text()").get();
+        String playUrl = page.getHtml().xpath("//div[@id='play_2']//ul//li/text()").get();
         if(playUrl.contains("$")){
             playUrl = playUrl.split("\\$")[1];
         }
