@@ -85,6 +85,8 @@ public class MovieReptile implements PageProcessor {
                 System.out.println("写入成功");
             } catch (Exception e) {
                 System.out.println("写入失败" + e.getMessage());
+                //如果失败情况下事件回滚
+                session.getTransaction().rollback();
             }
             session.getTransaction().commit();
             Spider.create(new TeleplayDetailsReptile()).addUrl(urls.get(i)).run();

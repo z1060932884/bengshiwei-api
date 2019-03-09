@@ -122,4 +122,18 @@ public class UserService {
 
         return UserFactory.modificationUserPic(id,picPath);
     }
+    /**
+     * 修改用户头像
+     * @param
+     * @return
+     */
+    @POST
+    @Path("/feedBack")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public  ResponseModel feedBack(@FormParam("content") String content,@FormParam("contact") String contact ){
+
+
+        return UserFactory.feedBack(content,contact);
+    }
 }

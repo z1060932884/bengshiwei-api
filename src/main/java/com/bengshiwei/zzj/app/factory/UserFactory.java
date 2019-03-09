@@ -2,6 +2,7 @@ package com.bengshiwei.zzj.app.factory;
 
 import com.bengshiwei.zzj.app.bean.base.ResponseModel;
 import com.bengshiwei.zzj.app.bean.card.UserCard;
+import com.bengshiwei.zzj.app.bean.db.FeedBack;
 import com.bengshiwei.zzj.app.bean.db.User;
 import com.bengshiwei.zzj.app.bean.db.UserFollow;
 import com.bengshiwei.zzj.app.utils.Hib;
@@ -169,5 +170,40 @@ public class UserFactory {
     public static User findById(String id) {
         // 通过Id查询，更方便
         return Hib.query(session -> session.get(User.class, id));
+    }
+
+
+    /**
+     * 反馈建议接口
+     * @param content 内容
+     * @param contact 联系方式
+     * @return
+     */
+    public static ResponseModel feedBack(String content,String contact){
+
+        if(content == null||content.equals("")){
+            return ResponseModel.buildMessage(ResponseModel.FAILS,"反馈内容不能为空");
+        }
+
+        FeedBack feedBack = new FeedBack();
+        feedBack.setContact(contact);
+        feedBack.setContent(content);
+        Session session = Hib.session();
+        //开启一个事物
+        session.beginTransaction();
+        try{
+            //保存操作
+            session.save(feedBack);
+            //提交事物
+            session.getTransaction().commit();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //如果失败情况下事件回滚
+            session.getTransaction().rollback();
+            return ResponseModel.buildMessage(ResponseModel.FAILS,"提交失败");
+        }
+
+        return ResponseModel.buildOk();
     }
 }

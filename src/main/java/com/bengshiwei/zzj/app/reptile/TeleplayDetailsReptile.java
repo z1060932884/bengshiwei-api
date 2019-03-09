@@ -61,9 +61,10 @@ public class TeleplayDetailsReptile implements PageProcessor {
 //                List<TelePlayUrl2> telePlayUrls2 = ReptileUtils.geTeleplayUrl2(movieDetailsModel.getId());
 //            //保存电视剧的集数1
             if (telePlayUrls1.size() != playUrl.size()) {
+                Session session = Hib.session();
+                session.beginTransaction();
                 try {
-                    Session session = Hib.session();
-                    session.beginTransaction();
+
 
                     for (int i = 0; i < playUrl.size(); i++) {
 
@@ -96,6 +97,8 @@ public class TeleplayDetailsReptile implements PageProcessor {
                     System.out.println("写入成功");
                 } catch (Exception e) {
                     System.out.println("写入失败" + e.getMessage());
+                    //如果失败情况下事件回滚
+                    session.getTransaction().rollback();
                 }
             }
         }
