@@ -114,14 +114,14 @@ public class MovieReptile implements PageProcessor {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-1.html").thread(5).run();
-//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2.html").thread(5).run();
-//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3.html").thread(5).run();
-//                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4.html").thread(5).run();
+                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-1.html").run();
+                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2.html").run();
+                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3.html").run();
+                Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4.html").run();
                for(int i =2;i<10;i++){
 //                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-1-pg-"+i+".html").thread(5).run();
 //                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-2-pg-"+i+".html").thread(5).run();
-                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3-pg-"+i+".html").thread(5).run();
+//                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-3-pg-"+i+".html").thread(5).run();
 //                   Spider.create(new MovieReptile()).addUrl("http://www.zuidazyw.com/?m=vod-type-id-4-pg-"+i+".html").thread(5).run();
                }
             }

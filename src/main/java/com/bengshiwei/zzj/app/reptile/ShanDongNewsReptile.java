@@ -85,4 +85,14 @@ public class ShanDongNewsReptile implements PageProcessor {
             }
         }, 1000);
     }
+
+    public static void startReptile(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Spider.create(new ShanDongNewsReptile()).addUrl("http://sd.sina.com.cn/").run();
+            }
+        }, 1000,60*1000*60);
+    }
 }

@@ -1,7 +1,9 @@
 package com.bengshiwei.zzj.app;
 
 import com.bengshiwei.zzj.app.provider.GsonProvider;
+import com.bengshiwei.zzj.app.reptile.ShanDongNewsReptile;
 import com.bengshiwei.zzj.app.service.AccountService;
+import com.bengshiwei.zzj.app.utils.ZuiDaVideoReptileUtils;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -20,6 +22,12 @@ public class Application extends ResourceConfig {
 
         //注册日志打印输出
         register(Logger.class);
+
+
+        ZuiDaVideoReptileUtils.startReptile();
+
+        ShanDongNewsReptile.startReptile();
+
     }
 
 }
