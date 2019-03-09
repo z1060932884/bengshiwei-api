@@ -44,6 +44,8 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
 
+    //工具类
+    compile 'cn.hutool:hutool-all:4.5.1'
     //添加lib中jar包
     compile fileTree(dir:'lib',includes:['*jar'])
     testCompile group: 'junit', name: 'junit', version: '4.11'
