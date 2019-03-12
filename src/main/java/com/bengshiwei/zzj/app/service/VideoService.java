@@ -9,6 +9,7 @@ import com.bengshiwei.zzj.app.bean.db.NewsReptile;
 import com.bengshiwei.zzj.app.bean.db.User;
 import com.bengshiwei.zzj.app.factory.UserFactory;
 import com.bengshiwei.zzj.app.utils.Hib;
+import com.bengshiwei.zzj.app.utils.ZuiDaVideoReptileUtils;
 import org.hibernate.Session;
 
 import javax.ws.rs.*;
@@ -30,6 +31,7 @@ public class VideoService {
     @GET
     @Path("/login")
     public String get() {
+        ZuiDaVideoReptileUtils.oneReptile();
         return "you get the login";
     }
 
