@@ -1,6 +1,7 @@
 package com.bengshiwei.zzj.app.service;
 
 import com.bengshiwei.zzj.app.bean.api.NewsReptileModel;
+import com.bengshiwei.zzj.app.bean.api.video.VideoDetailsModel;
 import com.bengshiwei.zzj.app.bean.api.video.VideoListModel;
 import com.bengshiwei.zzj.app.bean.base.ResponseModel;
 import com.bengshiwei.zzj.app.bean.db.MovieDetailsModel;
@@ -60,14 +61,27 @@ public class VideoService {
        }
     }
 
+    /**
+     * 查询列表
+     * @param currentLine 选择的线路  1 是 bsw_movie_detail表的  2是bsw_m3u8_movie_detail中
+     * @param type 视频类型
+     *
+     * @param page  查询页数
+     * @param limit 每页个数
+     * @return
+     */
     @POST
     @Path("/videoList")
     //指定请求与返回的相应体为Json
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces()
-    public ResponseModel<List<VideoListModel>> getNewsList(@FormParam("type") String type, @FormParam("page") int page,@FormParam("limit") int limit) {
-
-        List<VideoListModel> videoList = VideoServiceUtils.getVideoList(type, page,limit);
+    public ResponseModel<List<VideoListModel>> getNewsList(@FormParam("currentLine")String currentLine,@FormParam("type") String type, @FormParam("page") int page,@FormParam("limit") int limit) {
+        List<VideoListModel> videoList = null;
+        if(currentLine.equals("1")){
+            videoList = VideoServiceUtils.getVideoList(type, page,limit);
+        }else if(currentLine.equals("2")){
+            videoList = VideoServiceUtils.getM3u8VideoList(type, page,limit);
+        }
         if (videoList != null) {
             if (videoList.size() > 0) {
                 return ResponseModel.buildOk(videoList);
@@ -81,9 +95,14 @@ public class VideoService {
     }
     @POST
     @Path("/videoDetails")
-    public ResponseModel<MovieDetailsModel> getVideoDetails(@FormParam("movieId")String movieId){
+    public ResponseModel<VideoDetailsModel> getVideoDetails(@FormParam("currentLine")String currentLine, @FormParam("movieId")String movieId){
 
-        MovieDetailsModel movieDetailsModel = VideoServiceUtils.findVideoById(movieId);
+        VideoDetailsModel movieDetailsModel = null;
+        if(currentLine.equals("1")){
+            movieDetailsModel = VideoServiceUtils.findVideoById(movieId);
+        }else if(currentLine.equals("2")){
+            movieDetailsModel = VideoServiceUtils.findM3u8VideoById(movieId);
+        }
 //        movieDetailsModel.setTelePlayUrls(movieDetailsModel.getTelePlayUrls());
         if(movieDetailsModel!=null){
             return ResponseModel.buildOk(movieDetailsModel);

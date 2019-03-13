@@ -84,5 +84,9 @@
                  class="com.bengshiwei.zzj.app.bean.db.TelePlayUrl2"/>
         <mapping package="com.bengshiwei.zzj.app.bean.db"
                  class="com.bengshiwei.zzj.app.bean.db.FeedBack"/>
+        <mapping package="com.bengshiwei.zzj.app.bean.db"
+                 class="com.bengshiwei.zzj.app.bean.db.M3U8MovieDetailsModel"/>
+        <mapping package="com.bengshiwei.zzj.app.bean.db"
+                 class="com.bengshiwei.zzj.app.bean.db.M3U8TelePlayUrl"/>
     </session-factory>
 </hibernate-configuration>

@@ -37,6 +37,20 @@ public class ReptileUtils {
                     .list();
         });
     }
+    /**
+     * 通过url查找当前是否已经存储数据库
+     *
+     * @param url
+     * @return
+     */
+    public static List<M3U8MovieDetailsModel> getM3U8MovieUrl(String url) {
+        return Hib.query(session -> {
+            return (List<M3U8MovieDetailsModel>) session
+                    .createQuery("from M3U8MovieDetailsModel where url=:url")
+                    .setParameter("url", url)
+                    .list();
+        });
+    }
 
     /**
      *查询影视列表
@@ -66,6 +80,18 @@ public class ReptileUtils {
         //根据时间排序查询
         return Hib.query(session ->{
             return (List<TelePlayUrl>)session.createQuery("from TelePlayUrl where movieId=:movieId")
+                .setParameter("movieId",movieId)
+                .list();
+            });
+    }
+    /**
+     *查询影视url
+     * @return
+     */
+    public static List<M3U8TelePlayUrl> geM3u8TeleplayUrl(String movieId){
+        //根据时间排序查询
+        return Hib.query(session ->{
+            return (List<M3U8TelePlayUrl>)session.createQuery("from M3U8TelePlayUrl where movieId=:movieId")
                 .setParameter("movieId",movieId)
                 .list();
             });

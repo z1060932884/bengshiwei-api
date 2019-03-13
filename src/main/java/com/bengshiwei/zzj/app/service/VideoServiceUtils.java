@@ -1,12 +1,16 @@
 package com.bengshiwei.zzj.app.service;
 
 import com.bengshiwei.zzj.app.bean.api.NewsReptileModel;
+import com.bengshiwei.zzj.app.bean.api.video.VideoDetailsModel;
 import com.bengshiwei.zzj.app.bean.api.video.VideoListModel;
 import com.bengshiwei.zzj.app.bean.db.*;
 import com.bengshiwei.zzj.app.utils.Hib;
 import com.google.common.base.Strings;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,22 +22,22 @@ public class VideoServiceUtils {
 
     //查询消息
     @SuppressWarnings("unchecked")
-    public static List<VideoListModel> getVideoList(String mType, int page, int limit){
+    public static List<VideoListModel> getVideoList(String mType, int page, int limit) {
 
-        int beginPage =  page*limit;
+        int beginPage = page * limit;
 
         List<MovieDetailsModel> movieDetailsModels = Hib.query(session -> {
             // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
             // 头像和描述必须完善才能查询到
-            return  session.createQuery("from MovieDetailsModel where type=:mType  order by updateTime desc")
-                    .setParameter("mType",mType)
+            return session.createQuery("from MovieDetailsModel where type=:mType  order by updateTime desc")
+                    .setParameter("mType", mType)
                     .setMaxResults(limit)
                     .setFirstResult(beginPage)
                     .list();
 
         });
 
-        return  movieDetailsModels.stream().map(new Function<MovieDetailsModel, VideoListModel>() {
+        return movieDetailsModels.stream().map(new Function<MovieDetailsModel, VideoListModel>() {
             @Override
             public VideoListModel apply(MovieDetailsModel movieDetailsModel) {
 
@@ -42,33 +46,133 @@ public class VideoServiceUtils {
         }).collect(Collectors.toList());
     }
 
+    //查询消息
+    @SuppressWarnings("unchecked")
+    public static List<VideoListModel> getM3u8VideoList(String mType, int page, int limit) {
 
-    public static List<TelePlayUrl> getPlayUrlList(String movieId, int page, int limit){
+        int beginPage = page * limit;
 
-        int beginPage =  page*limit;
-
-        List<TelePlayUrl> telePlayUrls = Hib.query(session -> {
+        List<M3U8MovieDetailsModel> movieDetailsModels = Hib.query(session -> {
             // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
             // 头像和描述必须完善才能查询到
-            return  session.createQuery("from TelePlayUrl where movieId=:movieId")
-                    .setParameter("movieId",movieId)
+            return session.createQuery("from M3U8MovieDetailsModel where type=:mType  order by updateTime desc")
+                    .setParameter("mType", mType)
+                    .setMaxResults(limit)
+                    .setFirstResult(beginPage)
                     .list();
 
         });
 
-        return  telePlayUrls;
+        return movieDetailsModels.stream().map(new Function<M3U8MovieDetailsModel, VideoListModel>() {
+            @Override
+            public VideoListModel apply(M3U8MovieDetailsModel movieDetailsModel) {
+                VideoListModel videoListModel = new VideoListModel();
+                videoListModel.setUpdateTime(movieDetailsModel.getUpdateTime());
+                videoListModel.setType(movieDetailsModel.getType());
+                videoListModel.setMovieType(movieDetailsModel.getMovieType());
+                videoListModel.setTitle(movieDetailsModel.getTitle());
+                videoListModel.setImg(movieDetailsModel.getImg());
+                videoListModel.setId(movieDetailsModel.getId());
+                return videoListModel;
+            }
+        }).collect(Collectors.toList());
     }
 
+
+    public static List<TelePlayUrl> getPlayUrlList(String movieId, int page, int limit) {
+
+        int beginPage = page * limit;
+
+        List<TelePlayUrl> telePlayUrls = Hib.query(session -> {
+            // 查询的条件：name忽略大小写，并且使用like（模糊）查询；
+            // 头像和描述必须完善才能查询到
+            return session.createQuery("from TelePlayUrl where movieId=:movieId")
+                    .setParameter("movieId", movieId)
+                    .list();
+
+        });
+
+        return telePlayUrls;
+    }
 
 
     /**
      * 根据id查询电影数据
+     *
      * @param movieId
      * @return
      */
-    public static MovieDetailsModel findVideoById(String movieId){
+    public static VideoDetailsModel findVideoById(String movieId) {
+        VideoDetailsModel videoDetailsModel = null;
+        try{
+            MovieDetailsModel movieDetailsModel = Hib.query(session -> session.get(MovieDetailsModel.class, movieId));
+            videoDetailsModel = new VideoDetailsModel();
+            videoDetailsModel.setId(movieDetailsModel.getId());
+            videoDetailsModel.setActor(movieDetailsModel.getActor());
+            videoDetailsModel.setCreateAt(movieDetailsModel.getCreateAt());
+            videoDetailsModel.setDefinition(movieDetailsModel.getDefinition());
+            videoDetailsModel.setDirector(movieDetailsModel.getDirector());
+            videoDetailsModel.setImg(movieDetailsModel.getImg());
+            videoDetailsModel.setMovieDesc(movieDetailsModel.getMovieDesc());
+            videoDetailsModel.setPlayUrl(movieDetailsModel.getPlayUrl());
+            videoDetailsModel.setPlayUrl2(movieDetailsModel.getPlayUrl());
+            videoDetailsModel.setPlayUrl(movieDetailsModel.getPlayUrl2());
+            videoDetailsModel.setTitle(movieDetailsModel.getTitle());
+            videoDetailsModel.setTelePlayUrls(movieDetailsModel.getTelePlayUrls());
+            videoDetailsModel.setUpdateTime(movieDetailsModel.getUpdateTime());
+            videoDetailsModel.setType(movieDetailsModel.getType());
+            videoDetailsModel.setMovieType(movieDetailsModel.getMovieType());
+            videoDetailsModel.setRegion(movieDetailsModel.getRegion());
+        }catch (Exception e){
+            return null;
 
-        return Hib.query(session -> session.get(MovieDetailsModel.class,movieId));
+        }
+        return videoDetailsModel;
+
+    }
+
+    /**
+     * 根据id查询电影数据
+     *
+     * @param movieId
+     * @return
+     */
+    public static VideoDetailsModel findM3u8VideoById(String movieId) {
+        VideoDetailsModel videoDetailsModel = null;
+        try {
+            M3U8MovieDetailsModel movieDetailsModel = Hib.query(session -> session.get(M3U8MovieDetailsModel.class, movieId));
+            videoDetailsModel = new VideoDetailsModel();
+            videoDetailsModel.setId(movieDetailsModel.getId());
+            videoDetailsModel.setActor(movieDetailsModel.getActor());
+            videoDetailsModel.setCreateAt(movieDetailsModel.getCreateAt());
+            videoDetailsModel.setDefinition(movieDetailsModel.getDefinition());
+            videoDetailsModel.setDirector(movieDetailsModel.getDirector());
+            videoDetailsModel.setImg(movieDetailsModel.getImg());
+            videoDetailsModel.setMovieDesc(movieDetailsModel.getMovieDesc());
+            videoDetailsModel.setPlayUrl(movieDetailsModel.getPlayUrl());
+            videoDetailsModel.setPlayUrl2(movieDetailsModel.getPlayUrl());
+            videoDetailsModel.setPlayUrl(movieDetailsModel.getPlayUrl2());
+            videoDetailsModel.setTitle(movieDetailsModel.getTitle());
+            Iterator iter =  movieDetailsModel.getTelePlayUrls().iterator();
+            Set<TelePlayUrl> telePlayUrls = new HashSet<>();
+            while (iter.hasNext()){
+                M3U8TelePlayUrl m3U8TelePlayUrl = (M3U8TelePlayUrl) iter.next();
+                TelePlayUrl telePlayUrl = new TelePlayUrl();
+                telePlayUrl.setId(m3U8TelePlayUrl.getId());
+                telePlayUrl.setPlayUrl(m3U8TelePlayUrl.getPlayUrl());
+                telePlayUrl.setMovieId(m3U8TelePlayUrl.getMovieId());
+                telePlayUrls.add(telePlayUrl);
+            }
+            videoDetailsModel.setTelePlayUrls(telePlayUrls);
+            videoDetailsModel.setUpdateTime(movieDetailsModel.getUpdateTime());
+            videoDetailsModel.setType(movieDetailsModel.getType());
+            videoDetailsModel.setMovieType(movieDetailsModel.getMovieType());
+            videoDetailsModel.setRegion(movieDetailsModel.getRegion());
+        }catch (Exception e){
+
+            return null;
+        }
+        return videoDetailsModel;
     }
 
     /**
@@ -95,20 +199,20 @@ public class VideoServiceUtils {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         System.out.println(System.currentTimeMillis());
 //        System.out.println(VideoServiceUtils.getPlayUrlList(search("我的亲爹和后爸").get(0).getId(),0,0).size());
 
-       MovieDetailsModel movieDetailsModel =  VideoServiceUtils.findVideoById(search("我的亲爹和后爸").get(0).getId());
+//        MovieDetailsModel movieDetailsModel = VideoServiceUtils.findVideoById(search("我的亲爹和后爸").get(0).getId());
 
 
-       if(movieDetailsModel!=null){
-           System.out.println( "-------"+movieDetailsModel.getTelePlayUrls().size());
-
-       }else {
-           System.out.println( "-------null");
-       }
+//        if (movieDetailsModel != null) {
+//            System.out.println("-------" + movieDetailsModel.getTelePlayUrls().size());
+//
+//        } else {
+//            System.out.println("-------null");
+//        }
         System.out.println(System.currentTimeMillis());
 
     }
