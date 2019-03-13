@@ -24,9 +24,9 @@ public class Application extends ResourceConfig {
         register(Logger.class);
 
 
-        ZuiDaVideoReptileUtils.startReptile();
-
-        ShanDongNewsReptile.startReptile();
+//        ZuiDaVideoReptileUtils.startReptile();
+//
+//        ShanDongNewsReptile.startReptile();
 
     }
 

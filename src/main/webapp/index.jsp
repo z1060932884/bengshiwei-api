@@ -12,7 +12,7 @@
   </head>
   <body>
   $END$
-  <form action="${pageContext.request.contextPath}/api/files/uploadimage2" method="post" enctype="multipart/form-data">
+  <form action="${pageContext.request.contextPath}/api/files/upload" method="post" enctype="multipart/form-data">
     <p>
       文件 :<input type="file" name="file"/><br />
       用户名: <input type="text" name="username"/><br />

@@ -26,7 +26,7 @@ public class FileResourceService {
     /**
      * Constants operating with images
      */
-    private static final String ARTICLE_IMAGES_PATH = "d:/Newsportal/article_images/";
+    private static final String ARTICLE_IMAGES_PATH = "D:/test/images/";
     private static final String JPG_CONTENT_TYPE = "image/jpeg";
     private static final String PNG_CONTENT_TYPE = "image/png";
     /**
@@ -93,13 +93,13 @@ public class FileResourceService {
         String filePath = ARTICLE_IMAGES_PATH + result;
         File file = new File(filePath);
         System.out.println("file " + file.getAbsolutePath());
-//        try {
-//            //保存文件
-//            FileUtils.copyInputStreamToFile(fileInputStream, file);
-////  saveFile(fileInputStream, file);
-//        } catch (IOException ex) {
-//            Logger.getLogger(FileResourceService.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            //保存文件
+            saveFile(fileInputStream, file);
+//  saveFile(fileInputStream, file);
+        } catch (Exception ex) {
+            Logger.getLogger(FileResourceService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("" + "images/" + result);
 
         response.setCharacterEncoding("UTF-8");
