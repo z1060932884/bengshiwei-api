@@ -75,6 +75,34 @@ public class VideoService {
     //指定请求与返回的相应体为Json
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces()
+    public ResponseModel<List<VideoListModel>> getNewsList(@FormParam("type") String type, @FormParam("page") int page,@FormParam("limit") int limit) {
+        List<VideoListModel> videoList = null;
+        videoList = VideoServiceUtils.getVideoList(type, page,limit);
+        if (videoList != null) {
+            if (videoList.size() > 0) {
+                return ResponseModel.buildOk(videoList);
+            } else {
+                return ResponseModel.buildMessage(ResponseModel.DATA_EMPTY, "数据为空");
+            }
+        } else {
+            return ResponseModel.buildMessage(ResponseModel.DATA_EMPTY, "查询失败");
+        }
+
+    }
+    /**
+     * 查询列表
+     * @param currentLine 选择的线路  1 是 bsw_movie_detail表的  2是bsw_m3u8_movie_detail中
+     * @param type 视频类型
+     *
+     * @param page  查询页数
+     * @param limit 每页个数
+     * @return
+     */
+    @POST
+    @Path("/videoListLine")
+    //指定请求与返回的相应体为Json
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces()
     public ResponseModel<List<VideoListModel>> getNewsList(@FormParam("currentLine")String currentLine,@FormParam("type") String type, @FormParam("page") int page,@FormParam("limit") int limit) {
         List<VideoListModel> videoList = null;
         if(currentLine.equals("1")){
@@ -94,7 +122,7 @@ public class VideoService {
 
     }
     @POST
-    @Path("/videoDetails")
+    @Path("/videoDetailsLine")
     public ResponseModel<VideoDetailsModel> getVideoDetails(@FormParam("currentLine")String currentLine, @FormParam("movieId")String movieId){
 
         VideoDetailsModel movieDetailsModel = null;
@@ -103,6 +131,22 @@ public class VideoService {
         }else if(currentLine.equals("2")){
             movieDetailsModel = VideoServiceUtils.findM3u8VideoById(movieId);
         }
+//        movieDetailsModel.setTelePlayUrls(movieDetailsModel.getTelePlayUrls());
+        if(movieDetailsModel!=null){
+            return ResponseModel.buildOk(movieDetailsModel);
+        }else {
+            return ResponseModel.buildQueryError();
+        }
+
+    }
+    @POST
+    @Path("/videoDetails")
+    public ResponseModel<VideoDetailsModel> getVideoDetails( @FormParam("movieId")String movieId){
+
+        VideoDetailsModel movieDetailsModel = null;
+
+            movieDetailsModel = VideoServiceUtils.findVideoById(movieId);
+
 //        movieDetailsModel.setTelePlayUrls(movieDetailsModel.getTelePlayUrls());
         if(movieDetailsModel!=null){
             return ResponseModel.buildOk(movieDetailsModel);
