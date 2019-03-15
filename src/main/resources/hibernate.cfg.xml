@@ -88,5 +88,7 @@
                  class="com.bengshiwei.zzj.app.bean.db.M3U8MovieDetailsModel"/>
         <mapping package="com.bengshiwei.zzj.app.bean.db"
                  class="com.bengshiwei.zzj.app.bean.db.M3U8TelePlayUrl"/>
+        <mapping package="com.bengshiwei.zzj.app.bean.db"
+                 class="com.bengshiwei.zzj.app.bean.db.UpdateVersion"/>
     </session-factory>
 </hibernate-configuration>
