@@ -56,8 +56,8 @@ public class ResponseModel<M> implements Serializable {
     private int code;
     @Expose
     private String message;
-    @Expose
-    private LocalDateTime time = LocalDateTime.now();
+//    @Expose
+//    private LocalDateTime time = LocalDateTime.now();
     @Expose
     private M result;
 
@@ -102,13 +102,13 @@ public class ResponseModel<M> implements Serializable {
         this.message = message;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
+//    public LocalDateTime getTime() {
+//        return time;
+//    }
+//
+//    public void setTime(LocalDateTime time) {
+//        this.time = time;
+//    }
 
     public M getResult() {
         return result;

@@ -1,5 +1,7 @@
 package com.bengshiwei.zzj.app;
 
+import com.bengshiwei.zzj.app.filter.ResponseFilter;
+import com.bengshiwei.zzj.app.filter.WriterInterceptor;
 import com.bengshiwei.zzj.app.provider.GsonProvider;
 import com.bengshiwei.zzj.app.reptile.ShanDongNewsReptile;
 import com.bengshiwei.zzj.app.service.AccountService;
@@ -11,6 +13,7 @@ import java.util.logging.Logger;
 
 public class Application extends ResourceConfig {
 
+//私钥base64-->MIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQg2uPgTN+MNblSb8hDlbHrTp5+cXezlErvztt1f9YINgegCgYIKoEcz1UBgi2hRANCAAQnjTvYcLJREJtze99F3OVgIPbTEOylh7x8q99dYBq+dK7wwxEjGf+5Qb8iLWgGRQuP8N4Tnq4cx27L1xLIgkGl
 
     public Application(){
         //注册逻辑转换器
@@ -24,6 +27,8 @@ public class Application extends ResourceConfig {
         register(Logger.class);
 
 
+        register(ResponseFilter.class);
+        register(WriterInterceptor.class);
 //        ZuiDaVideoReptileUtils.startReptile();
 //
 //        ShanDongNewsReptile.startReptile();
